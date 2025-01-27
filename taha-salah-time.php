@@ -13,6 +13,8 @@ if (is_admin()) {
 }
 require_once plugin_dir_path(__FILE__) . 'includes/shortcode.php';
 
+
+
 // Create database table on activation
 register_activation_hook(__FILE__, 'ctd_create_table');
 
@@ -21,10 +23,13 @@ function ctd_create_table() {
     $table_name = $wpdb->prefix . 'taha_salah_time';
     $charset = $wpdb->get_charset_collate();
 
+    // Drop the existing table if it exists
+    $wpdb->query("DROP TABLE IF EXISTS $table_name");
+
+    // Create the new table
     $sql = "CREATE TABLE $table_name (
         id INT NOT NULL AUTO_INCREMENT,
         entry_date DATE NOT NULL,
-        date_day VARCHAR(255),
         fajr_begins VARCHAR(255),
         fajr_jamaah VARCHAR(255),
         zuhr_begins VARCHAR(255),
@@ -40,4 +45,11 @@ function ctd_create_table() {
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
+}
+
+// Add styles
+add_action('wp_enqueue_scripts', 'ctd_enqueue_styles');
+
+function ctd_enqueue_styles() {
+    wp_enqueue_style('ctd-styles', plugin_dir_url(__FILE__) .'css/styles.css');
 }

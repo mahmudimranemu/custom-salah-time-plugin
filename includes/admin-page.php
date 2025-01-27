@@ -33,6 +33,14 @@ function ctd_admin_page_html() {
             global $wpdb;
             $table = $wpdb->prefix . 'taha_salah_time';
 
+            // Check if table already has data
+            $existing_data = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+            if ($existing_data > 0) {
+                // Delete existing data
+                $wpdb->query("TRUNCATE TABLE $table");
+                echo '<div class="notice notice-warning"><p>Existing data has been deleted and replaced with the new CSV data.</p></div>';
+            }
+
             // Skip header row (adjust if your CSV has no headers)
             fgetcsv($handle);
 
@@ -46,17 +54,16 @@ function ctd_admin_page_html() {
 
                 $wpdb->insert($table, array(
                     'entry_date' => $date->format('Y-m-d'),
-                    'date_day' => sanitize_text_field($row[1]),
-                    'fajr_begins' => sanitize_text_field($row[2]),
-                    'fajr_jamaah' => sanitize_text_field($row[3]),
-                    'zuhr_begins' => sanitize_text_field($row[4]),
-                    'zuhr_jamaah' => sanitize_text_field($row[5]),
-                    'asr_begins' => sanitize_text_field($row[6]),
-                    'asr_jamaah' => sanitize_text_field($row[7]),
-                    'maghrib_begins' => sanitize_text_field($row[8]),
-                    'maghrib_jamaah' => sanitize_text_field($row[9]),
-                    'isha_begins' => sanitize_text_field($row[10]),
-                    'isha_jamaah' => sanitize_text_field($row[11]),
+                    'fajr_begins' => sanitize_text_field($row[1]),
+                    'fajr_jamaah' => sanitize_text_field($row[2]),
+                    'zuhr_begins' => sanitize_text_field($row[3]),
+                    'zuhr_jamaah' => sanitize_text_field($row[4]),
+                    'asr_begins' => sanitize_text_field($row[5]),
+                    'asr_jamaah' => sanitize_text_field($row[6]),
+                    'maghrib_begins' => sanitize_text_field($row[7]),
+                    'maghrib_jamaah' => sanitize_text_field($row[8]),
+                    'isha_begins' => sanitize_text_field($row[9]),
+                    'isha_jamaah' => sanitize_text_field($row[10]),
                 ));
             }
 
@@ -78,6 +85,9 @@ function ctd_admin_page_html() {
                 <input type="submit" name="submit_csv" class="button button-primary" value="Upload CSV">
             </p>
         </form>
+        <div>
+           <p>Use this shortcode to display the current salah time:</p> <code>[today_salah_time]</code>
+        </div>
     </div>
     <?php
 }

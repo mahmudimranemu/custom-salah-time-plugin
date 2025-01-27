@@ -1,0 +1,39 @@
+.st-salah-times-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 5px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.salah-times-heading {
+  display: grid;
+  grid-template-columns: 120px repeat(5, 1fr);
+  text-align: center;
+  border-bottom: 1px solid #00000044;
+}
+
+.monthly-salah-times-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-gap: 5px;
+  margin-top: 10px;
+  text-align: center;
+  border-bottom: 1px solid #00000044;
+}
+
+.st-bold {
+  font-weight: bold;
+}
+
+.st-monthly-salah-times table,
+.st-monthly-salah-times th,
+.st-monthly-salah-times td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.st-monthly-salah-times table {
+  width: 100%;
+  text-align: center;
+}
